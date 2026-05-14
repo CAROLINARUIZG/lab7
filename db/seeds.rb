@@ -1,8 +1,33 @@
+User.destroy_all
 Treatment.destroy_all
 Appointment.destroy_all
 Pet.destroy_all
 Owner.destroy_all
 Vet.destroy_all
+
+User.create!(
+  first_name: "Admin",
+  last_name: "Sistem",
+  email: "adminsistem@vetclinic.com",
+  password: "password123",
+  role: :admin
+)
+
+User.create!(
+  first_name: "Sebastian",
+  last_name: "Ruiz",
+  email: "sebastian.ruiz.vet@vetclinic.com",
+  password: "password123",
+  role: :vet
+)
+
+User.create!(
+  first_name: "Pepito",
+  last_name: "Perez", 
+  email: "pepitoperez@vetclinic.com",
+  password: "password123",
+  role: :owner
+)
 
 o1 = Owner.create(first_name: "Pepito", last_name: "Perez", email: "pepitoperez@mail.com", phone: "13579", address: "Manuel Montt 123")
 o2 = Owner.create(first_name: "Cristobal", last_name: "Colon", email: "cristobalcolon@mail.com", phone: "24680", address: "Conquistador de América 1492")
