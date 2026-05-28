@@ -1,15 +1,20 @@
 class Owner < ApplicationRecord
-    has_many :pets, dependent: :destroy
 
-    validates :first_name, :last_name, :phone, presence: true
-    validates: email, presence: true;
-                      uniqueness: true,
-                      format: { with: URI::MailTo::EMAIL_REGEXP } 
-    
-    before_validation :normalize_email
-    
-    private
+  belongs_to :user, optional: true
 
-    def normalize_email
-        self.email = email.downcase.strip if email.present?
+  has_many :pets, dependent: :destroy
+
+  validates :first_name, :last_name, :phone, presence: true
+
+  validates :email, presence: true,
+                    uniqueness: true,
+                    format: { with: URI::MailTo::EMAIL_REGEXP } 
+    
+  before_validation :normalize_email
+    
+  private
+
+  def normalize_email
+    self.email = email.downcase.strip if email.present?
+  end
 end

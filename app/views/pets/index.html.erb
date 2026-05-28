@@ -1,4 +1,9 @@
-<h1 class="my-4">Pets</h1>
+<div class="d-flex justify-content-between align-items-center my-4">
+  <h1>Pets</h1>
+  <% if policy(Pet).new? %>
+    <%= link_to 'New Pet', new_pet_path, class: 'btn btn-primary shadow-sm' %>
+  <% end %>
+</div>
 
 <table class="table table-striped table-hover border shadow-sm align-middle">
   <thead class="table-dark">
@@ -9,6 +14,7 @@
       <th>Breed</th>
       <th>Owner</th>
       <th>Birth Date</th>
+      <th class="text-center">Actions</th> <%# Nueva columna para acciones %>
     </tr>
   </thead>
   <tbody>
@@ -28,8 +34,21 @@
         <td><%= pet.species %></td>
         <td><%= pet.breed %></td>
         <td><%= pet.owner.first_name %> <%= pet.owner.last_name %></td>
-        
         <td><%= pet.birth_date.strftime("%B %d, %Y") %></td>
+
+        <td class="text-center">
+          <div class="btn-group" role="group">
+            <% if policy(pet).edit? %>
+              <%= link_to 'Edit', edit_pet_path(pet), class: "btn btn-outline-warning btn-sm" %>
+            <% end %>
+
+            <% if policy(pet).destroy? %>
+              <%= link_to 'Delete', pet, 
+                          data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, 
+                          class: "btn btn-outline-danger btn-sm" %>
+            <% end %>
+          </div>
+        </td>
       </tr>
     <% end %>
   </tbody>

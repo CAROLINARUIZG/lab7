@@ -1,0 +1,17 @@
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+          <h2 class="mb-0">Agendar Nueva Cita</h2>
+        </div>
+        <div class="card-body">
+          <%= render "form", appointment: @appointment %>
+        </div>
+        <div class="card-footer text-center">
+          <%= link_to "Volver a la lista", appointments_path, class: "btn btn-link" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

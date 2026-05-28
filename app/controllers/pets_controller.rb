@@ -2,18 +2,25 @@ class PetsController < ApplicationController
   before_action :set_pet, only: [:show, :edit, :update, :destroy]
 
   def index
-    @pets = Pet.all
+    @pets = policy_scope(Pet)
   end
 
   def show
+    authorize @pet
   end
 
   def new
     @pet = Pet.new
+    authorize @pet
   end
 
   def create
     @pet = Pet.new(pet_params)
+    
+    @pet.owner = current_user.owner if current_user.owner?
+    
+    authorize @pet
+
     if @pet.save
       redirect_to @pet, notice: 'Pet created successfully.'
     else
@@ -22,9 +29,11 @@ class PetsController < ApplicationController
   end
 
   def edit
+    authorize @pet
   end
 
   def update
+    authorize @pet
     if @pet.update(pet_params)
       redirect_to @pet, notice: 'Pet updated successfully.'
     else
@@ -33,6 +42,7 @@ class PetsController < ApplicationController
   end
 
   def destroy
+    authorize @pet
     @pet.destroy
     redirect_to pets_url, notice: 'Pet deleted.'
   end
@@ -44,6 +54,6 @@ class PetsController < ApplicationController
   end
 
   def pet_params
-  params.expect(pet: [ :name, :species, :breed, :birthdate, :owner_id, :photo ])
+    params.require(:pet).permit(policy(@pet || Pet).permitted_attributes)
   end
 end

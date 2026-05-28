@@ -5,10 +5,10 @@ class Appointment < ApplicationRecord
 
   validates :date, :reason, :status, presence: true
 
-  enum status: {
+  enum :status, {
     scheduled: 0,
     in_progress: 1,
     completed: 2,
     cancelled: 3
-  }
+  }, default: :scheduled
 end

@@ -1,16 +1,20 @@
 class Vet < ApplicationRecord
-    has_many :appointments
 
-    validates :first_name, :last_name, :specialization, presence: true
-    validates :email, presence: true, uniqueness: true, 
-               format: { with: URI::MailTo::EMAIL_REGEXP }
+  belongs_to :user, optional: true
 
-    scope :by_specialization, ->(spec) { where(specialization: spec) }
+  has_many :appointments
 
-    before_validation :normalize_email
+  validates :first_name, :last_name, :specialization, presence: true
+  validates :email, presence: true, uniqueness: true, 
+                    format: { with: URI::MailTo::EMAIL_REGEXP }
 
-    private
+  scope :by_specialization, ->(spec) { where(specialization: spec) }
 
-    def normalize_email
-        self.email = email.downcase.strip if email.present?
+  before_validation :normalize_email
+
+  private
+
+  def normalize_email
+    self.email = email.downcase.strip if email.present?
+  end
 end

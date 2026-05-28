@@ -1,8 +1,27 @@
 <%= form_with(model: owner) do |f| %>
   <%= render 'shared/error_messages', object: owner %>
+
   <div class="mb-3">
-    <%= f.label :first_name, class: "form-label" %>
+    <%= f.label :first_name, "Nombre", class: "form-label" %>
     <%= f.text_field :first_name, class: "form-control" %>
   </div>
-  <%= f.submit class: "btn btn-primary" %>
+
+  <div class="mb-3">
+    <%= f.label :last_name, "Apellido", class: "form-label" %>
+    <%= f.text_field :last_name, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :email, "Correo Electrónico", class: "form-label" %>
+    <%= f.email_field :email, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :phone, "Teléfono", class: "form-label" %>
+    <%= f.text_field :phone, class: "form-control" %>
+  </div>
+
+  <div class="mt-4">
+    <%= f.submit owner.new_record? ? "Crear Dueño" : "Actualizar Dueño", class: "btn btn-primary w-100" %>
+  </div>
 <% end %>

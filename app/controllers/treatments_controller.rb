@@ -4,30 +4,37 @@ class TreatmentsController < ApplicationController
 
   def new
     @treatment = @appointment.treatments.build
+    authorize @treatment
   end
 
   def create
     @treatment = @appointment.treatments.build(treatment_params)
+    authorize @treatment
+    
     if @treatment.save
-      redirect_to @appointment, notice: 'treatment added'
+      redirect_to @appointment, notice: 'Treatment added successfully'
     else
       render :new, status: :unprocessable_entity
     end
   end
 
-  def edit; end
+  def edit
+    authorize @treatment
+  end
 
   def update
+    authorize @treatment
     if @treatment.update(treatment_params)
-      redirect_to @appointment, notice: 'treatment updated'
+      redirect_to @appointment, notice: 'Treatment updated successfully.'
     else
       render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
+    authorize @treatment
     @treatment.destroy
-    redirect_to @appointment, notice: 'treatment deleted'
+    redirect_to @appointment, notice: 'Treatment deleted.'
   end
 
   private
@@ -41,6 +48,6 @@ class TreatmentsController < ApplicationController
   end
 
   def treatment_params
-    params.expect(treatment: [ :appointment_id, :description, :cost, :clinical_notes ])
+    params.require(:treatment).permit(:description, :cost, :clinical_notes)
   end
 end
